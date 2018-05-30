@@ -11,7 +11,6 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: Join domain
     - name: add db vip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
