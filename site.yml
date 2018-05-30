@@ -1,57 +1,69 @@
 ---
 - hosts: app
+  vars:
+    join_domain: true
+    sysprep_host: false
+    windows_domain_info:
+      dns_server: "{{ windnsaddr }}"
+      dns_domain_name: "{{ windomianname }}"
+      domain_admin_user: "{{ windomainadminuser }}"
+      domain_admin_password: "{{ windomainadminpass }}"
+  roles:
+    - role: ansible-windows-domain-member
   tasks:
-  - name: add db vip host entry
-    win_lineinfile:
-      path: C:\windows\system32\drivers\etc\hosts
-      regexp: "db.{{ app_domain }}"
-      line: "{{ db_vip }} db.{{ app_domain }}"
-  - name: install IIS
-    win_feature:
-      name: Web-Server
-      state: present
-      include_sub_features: True
-      include_management_tools: True
-  - name: download web deploy installer
-    win_get_url:
-      url: http://download.microsoft.com/download/8/9/B/89B754A5-56F7-45BD-B074-8974FD2039AF/WebDeploy_2_10_amd64_en-US.msi
-      dest: C:\
-      force: no
-  - name: Install web deploy
-    win_command: msiexec /I C:\WebDeploy_2_10_amd64_en-US.msi /quiet ADDLOCAL=ALL
-  - name: push webapp code
-    win_copy:
-      src: content/middleware
-      dest: C:\
-  - name: Ensure webroot directory
-    win_file:
-      path: C:\inetpub\windowsdemoapp
-      state: directory
-  - name: Setup app pool
-    win_iis_webapppool:
-      name: "{{ app_domain }}"
-      state: started
-      attributes:
-        autoStart: true
-        enable32BitAppOnWin64: true
-  - name: Setup website
-    win_iis_website:
-      name: "{{ app_domain }}"
-      state: started
-      port: 80
-      ip: '*'
-      hostname: "app.{{ app_domain }}"
-      application_pool: "{{ app_domain }}"
-      physical_path: C:\inetpub\windowsdemoapp
-  - name: Deploy application
-    win_command: winapp1.deploy.cmd /Y
-    args:
-      chdir: C:\middleware
+    - name: Join domain
+    - name: add db vip host entry
+      win_lineinfile:
+        path: C:\windows\system32\drivers\etc\hosts
+        regexp: "db.{{ app_domain }}"
+        line: "{{ db_vip }} db.{{ app_domain }}"
+    - name: install IIS
+      win_feature:
+        name: Web-Server
+        state: present
+        include_sub_features: true
+        include_management_tools: true
+    - name: download web deploy installer
+      win_get_url:
+        url: http://download.microsoft.com/download/8/9/B/89B754A5-56F7-45BD-B074-8974FD2039AF/WebDeploy_2_10_amd64_en-US.msi
+        dest: C:\
+        force: false
+    - name: Install web deploy
+      win_command: msiexec /I C:\WebDeploy_2_10_amd64_en-US.msi /quiet ADDLOCAL=ALL
+    - name: push webapp code
+      win_copy:
+        src: content/middleware
+        dest: C:\
+    - name: Ensure webroot directory
+      win_file:
+        path: C:\inetpub\windowsdemoapp
+        state: directory
+    - name: Setup app pool
+      win_iis_webapppool:
+        name: "{{ app_domain }}"
+        state: started
+        attributes:
+          autoStart: true
+          enable32BitAppOnWin64: true
+    - name: Setup website
+      win_iis_website:
+        name: "{{ app_domain }}"
+        state: started
+        port: 80
+        ip: '*'
+        hostname: "app.{{ app_domain }}"
+        application_pool: "{{ app_domain }}"
+        physical_path: C:\inetpub\windowsdemoapp
+    - name: Deploy application
+      win_command: winapp1.deploy.cmd /Y
+      args:
+        chdir: C:\middleware
+
 - hosts: db
   vars:
-    mysql_enabled_on_startup: yes
-    overwrite_global_mycnf: yes
-    mysql_databases: 
+    mysql_enabled_on_startup: true
+    overwrite_global_mycnf: true
+    mysql_databases:
       - name: "{{ dbname }}"
     mysql_users:
       - name: "{{ dbusername }}"
@@ -59,57 +71,41 @@
         host: '%'
         priv: "{{ dbname }}.*:ALL"
   tasks:
-  - name: Copy database base sql file
-    copy:
-      src: content/database/windowsdemo.sql
-      dest: /tmp
-  - name: Ensure database exists
-    mysql_db:
-      name: windowsdemo
-      state: present
-  - name: Test for table existence
-    stat:
-      path: /var/lib/mysql/windowsdemo/names.ibd
-    register: db_table
-  - name: import database data
-    mysql_db:
-      name: windowsdemo
-      state: import
-      target: /tmp/windowsdemo.sql
-    when: db_table.stat.exists == false
-  - name: Ensure Port 3306 open
-    iptables:
-      chain: IN_public_allow
-      destination_port: 3306
-      protocol: tcp
-      match: tcp
-      ctstate: NEW
-      jump: ACCEPT
-  - name: Save iptables rules
-    command: service iptables save
-    args:
-      warn: no
+    - name: Copy database base sql file
+      copy:
+        src: content/database/windowsdemo.sql
+        dest: /tmp
+    - name: Ensure database exists
+      mysql_db:
+        name: windowsdemo
+        state: present
+    - name: Test for table existence
+      stat:
+        path: /var/lib/mysql/windowsdemo/names.ibd
+      register: db_table
+    - name: import database data
+      mysql_db:
+        name: windowsdemo
+        state: import
+        target: /tmp/windowsdemo.sql
+      when: db_table.stat.exists == false
+    - name: Ensure Port 3306 open
+      iptables:
+        chain: IN_public_allow
+        destination_port: 3306
+        protocol: tcp
+        match: tcp
+        ctstate: NEW
+        jump: ACCEPT
+    - name: Save iptables rules
+      command: service iptables save
+      args:
+        warn: false
   roles:
-  - { role: mysql }
+    - role: mysql
+
 - hosts: frontend
   vars:
-    nginx_vhosts:
-      - listen: "80"
-        server_name: "www.{{ app_domain }}"
-        root: "/var/www/{{ app_domain }}"
-        index: "index.php index.html index.htm"
-        state: "present"
-        template: "{{ nginx_vhost_template }}"
-        filename: "{{ app_domain }}.conf"
-        extra_parameters: |
-          location ~ \.php$ {
-              fastcgi_split_path_info ^(.+\.php)(/.+)$;
-              fastcgi_pass 127.0.0.1:9000;
-              fastcgi_index index.php;
-              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-              include fastcgi_params;
-          }
-        
     php_enable_php_fpm: false
     php_webserver_daemon: "nginx"
     php_fpm_listen: "127.0.0.1:9000"
@@ -129,40 +125,56 @@
     php_opcache_revalidate_path: "0"
     php_opcache_revalidate_freq: "2"
     php_opcache_max_file_size: "0"
+    nginx_vhosts:
+      - listen: "80"
+        server_name: "www.{{ app_domain }}"
+        root: "/var/www/{{ app_domain }}"
+        index: "index.php index.html index.htm"
+        state: "present"
+        template: "{{ nginx_vhost_template }}"
+        filename: "{{ app_domain }}.conf"
+        extra_parameters: |
+          location ~ \.php$ {
+              fastcgi_split_path_info ^(.+\.php)(/.+)$;
+              fastcgi_pass 127.0.0.1:9000;
+              fastcgi_index index.php;
+              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+              include fastcgi_params;
+          }
   tasks:
-  - name: ensure app location in hostfile
-    lineinfile:
-      path: /etc/hosts
-      regexp: "app.{{ app_domain }}"
-      line: "{{ app_vip }} app.{{ app_domain }}"
-  - name: Ensure Port 80 open
-    iptables:
-      chain: IN_public_allow
-      destination_port: 80
-      protocol: tcp
-      match: tcp
-      ctstate: NEW
-      jump: ACCEPT
-  - name: Save iptables rules
-    command: service iptables save
-    args:
-      warn: no
-  - name: Ensure php-fpm service running
-    service: 
-      name: php-fpm
-      state: started
-  - name: Ensure nginx service running
-    service: 
-      name: nginx
-      state: started
-  - name: Ensure webroot directory
-    file:
-      path: "/var/www/{{ app_domain }}"
-      state: directory
-  - name: Copy front end code
-    copy:
-      src: content/frontend/
-      dest: "/var/www/{{ app_domain }}"
+    - name: ensure app location in hostfile
+      lineinfile:
+        path: /etc/hosts
+        regexp: "app.{{ app_domain }}"
+        line: "{{ app_vip }} app.{{ app_domain }}"
+    - name: Ensure Port 80 open
+      iptables:
+        chain: IN_public_allow
+        destination_port: 80
+        protocol: tcp
+        match: tcp
+        ctstate: NEW
+        jump: ACCEPT
+    - name: Save iptables rules
+      command: service iptables save
+      args:
+        warn: false
+    - name: Ensure php-fpm service running
+      service:
+        name: php-fpm
+        state: started
+    - name: Ensure nginx service running
+      service:
+        name: nginx
+        state: started
+    - name: Ensure webroot directory
+      file:
+        path: "/var/www/{{ app_domain }}"
+        state: directory
+    - name: Copy front end code
+      copy:
+        src: content/frontend/
+        dest: "/var/www/{{ app_domain }}"
   roles:
-  - { role: nginx }
-  - { role: php }
+    - role: nginx
+    - role: php

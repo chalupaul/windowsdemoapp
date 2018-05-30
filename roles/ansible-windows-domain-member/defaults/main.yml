@@ -1,0 +1,15 @@
+---
+# Defaults file for ansible-windows-domain-member
+
+# Defines if host should be joined to domain
+join_domain: false
+
+# Defines if host should be sysprepped first
+sysprep_host: false
+
+# Defines information about the domain
+windows_domain_info:
+  dns_server: 192.168.250.31
+  dns_domain_name: vagrant.local
+  domain_admin_user: vagrant
+  domain_admin_password: Vagrant@123!

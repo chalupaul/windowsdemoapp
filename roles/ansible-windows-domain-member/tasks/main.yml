@@ -1,0 +1,27 @@
+---
+- name: Set DNS Server
+  win_dns_client:
+    adapter_names: "{{ item['connection_name'] }}"
+    ipv4_addresses:
+      - "{{ windows_domain_info['dns_server'] }}"
+  when: item['default_gateway'] != '192.168.121.1'
+  with_items:
+    - "{{ ansible_interfaces }}"
+
+- name: Sysprep host if required
+  win_shell: C:\Windows\System32\Sysprep\sysprep.exe /generalize /oobe /reboot /unattend:"C:\Program Files\Cloudbase Solutions\Cloudbase-Init\conf\Unattend.xml"
+  when: sysprep_host
+
+- name: Wait 7 min for sysprep and reboot
+  pause:
+    seconds: 420
+  when: sysprep_host
+
+- name: Join domain
+  win_domain_membership:
+    dns_domain_name: "{{ windows_domain_info['dns_domain_name'] }}"
+    domain_admin_user: "{{ windows_domain_info['domain_admin_user'] }}@{{ windows_domain_info['dns_domain_name'] }}"
+    domain_admin_password: "{{ windows_domain_info['domain_admin_password'] }}"
+    state: domain
+  when: join_domain
+
