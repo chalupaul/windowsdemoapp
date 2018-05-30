@@ -4,10 +4,10 @@
     join_domain: true
     sysprep_host: false
     windows_domain_info:
-      dns_server: 192.168.250.31
-      dns_domain_name: vagrant.local
-      domain_admin_user: vagrant
-      domain_admin_password: Vagrant@123!
+      dns_server: "{{ windnsaddr }}"
+      dns_domain_name: "{{ windomianname }}"
+      domain_admin_user: "{{ windomainadminuser }}"
+      domain_admin_password: "{{ windomainadminpass }}"
   roles:
     - role: ansible-windows-domain-member
   tasks:
@@ -61,8 +61,8 @@
 
 - hosts: db
   vars:
-    mysql_enabled_on_startup: "yes"
-    overwrite_global_mycnf: "yes"
+    mysql_enabled_on_startup: true
+    overwrite_global_mycnf: true
     mysql_databases:
       - name: "{{ dbname }}"
     mysql_users:
