@@ -53,11 +53,34 @@
         hostname: "app.{{ app_domain }}"
         application_pool: "{{ app_domain }}"
         physical_path: C:\inetpub\windowsdemoapp
+    - name: Create registry directory
+      win_regedit:
+        path: HKLM:\SOFTWARE\WindowsDemo
+    - name: Create dbname registry entry
+      win_regedit:
+        path: HKLM:\SOFTWARE\WindowsDemo
+        name: dbname
+        data: "{{ dbname }}"
+    - name: Create dburl registry entry
+      win_regedit:
+        path: HKLM:\SOFTWARE\WindowsDemo
+        name: dburl
+        data: "db.{{ app_domain }}"
+    - name: Create dbuser registry entry
+      win_regedit:
+        path: HKLM:\SOFTWARE\WindowsDemo
+        name: dbuser
+        data: "{{ dbusername }}"
+    - name: Create dbpass registry entry
+      win_regedit:
+        path: HKLM:\SOFTWARE\WindowsDemo
+        name: dbpass
+        data: "{{ dbpassword }}"
+      register: registry_dbpass
     - name: Deploy application
       win_command: winapp1.deploy.cmd /Y
       args:
         chdir: C:\middleware
-
 - hosts: db
   vars:
     mysql_enabled_on_startup: true
@@ -172,8 +195,12 @@
         state: directory
     - name: Copy front end code
       copy:
-        src: content/frontend/
+        src: content/frontend/web
         dest: "/var/www/{{ app_domain }}"
+    - name: Write config template
+      template:
+        src: content/frontend/_config.php.j2
+        dest: "/var/www/{{ app_domain }}"/_config.php
   roles:
     - role: nginx
     - role: php
