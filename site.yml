@@ -200,7 +200,7 @@
     - name: Write config template
       template:
         src: content/frontend/_config.php.j2
-        dest: "/var/www/{{ app_domain }}"/_config.php
+        dest: "/var/www/{{ app_domain }}/_config.php"
   roles:
     - role: nginx
     - role: php
