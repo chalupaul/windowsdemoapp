@@ -1,4 +1,10 @@
 ---
+- hosts: lbExt
+  tasks:
+    - name: Install haproxy
+      package:
+        name: haproxy
+        state: present
 - hosts: app
   vars:
     join_domain: true
