@@ -1,11 +1,12 @@
 ---
 - hosts: lbExt
   vars:
+    thingamabob: "HI"
     haproxy_backend_servers: "{{ groups['frontend'] | map('extract', hostvars, ['ansible_ssh_host']) | join(',') }}"
   tasks:
     - name: debug
       debug:
-        var: hostvars[inventory_hostname]
+        var: haproxy_backend_servers
     - name: Install haproxy
       package:
         name: haproxy
