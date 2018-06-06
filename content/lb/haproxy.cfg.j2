@@ -92,6 +92,7 @@ frontend main *:80
 backend app
     mode http
     balance roundrobin
-    {% for ip in haproxy_backend_servers %}
-    server {{ ip }} {{ ip }} cookie {{ ip }} check
+    {% for server in groups[backend_group] %}
+        {% set ip = hostvars[server]['ansible_eth0']['ipv4']['address'] %}
+        server {{ ip }} {{ ip }} cookie {{ ip }} check
     {% endfor %}
