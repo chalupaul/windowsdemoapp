@@ -15,7 +15,7 @@
       service:
         name: haproxy
         enabled: true
-        state restarted
+        state: restarted
 - hosts: app
   vars:
     join_domain: true
