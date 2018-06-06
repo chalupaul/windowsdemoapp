@@ -6,7 +6,7 @@
   tasks:
     - name: debug
       debug:
-        var: haproxy_backend_servers
+        var: hostvars[inventory_hostname]
     - name: Install haproxy
       package:
         name: haproxy
