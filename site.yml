@@ -1,9 +1,9 @@
 ---
 - hosts: lbExt
-  vars:
-    thingamabob: "HI"
-    haproxy_backend_servers: "{{ groups['frontend'] | map('extract', hostvars, ['ansible_ssh_host']) | join(',') }}"
   tasks:
+    - name: Setup backend ips
+      set_fact:
+        haproxy_backend_servers: "{{ groups['frontend'] | map('extract', hostvars, ['ansible_ssh_host']) | join(',') }}"
     - name: debug
       debug:
         var: hostvars[inventory_hostname]
