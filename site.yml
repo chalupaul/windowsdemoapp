@@ -3,6 +3,9 @@
   vars:
     haproxy_backend_servers: "{{ groups['frontend'] | map('extract', hostvars, ['ansible_ssh_host']) | join(',') }}"
   tasks:
+    - name: debug
+      debug:
+        var: hostvars[inventory_hostname]
     - name: Install haproxy
       package:
         name: haproxy
