@@ -14,11 +14,13 @@
       template:
         src: content/lb/haproxy.cfg.j2
         dest: /etc/haproxy/haproxy.cfg
+      register: haproxy_config
     - name: restart haproxy
       service:
         name: haproxy
         enabled: true
         state: restarted
+      when: haproxy_config.changed
 - hosts: app
   vars:
     join_domain: true
