@@ -1,10 +1,21 @@
 ---
 - hosts: lbExt
+  vars:
+    haproxy_backend_servers: "{{ groups['frontend'] | map('extract', hostvars, ['ansible_ssh_host']) | join(',') }}"
   tasks:
     - name: Install haproxy
       package:
         name: haproxy
         state: present
+    - name: haproxy config
+      template:
+        src: content/lb/haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+    - name: restart haproxy
+      service:
+        name: haproxy
+        enabled: true
+        state restarted
 - hosts: app
   vars:
     join_domain: true
