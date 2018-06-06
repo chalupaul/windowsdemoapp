@@ -3,9 +3,6 @@
   vars:
     backend_group: frontend
   tasks:
-    - name: debug
-      debug:
-        var: hostvars[inventory_hostname]
     - name: Install haproxy
       package:
         name: haproxy
