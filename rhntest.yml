@@ -1,0 +1,5 @@
+---
+- hosts: rhntest
+  tasks:
+    - name: test rhn
+      command: whoami
