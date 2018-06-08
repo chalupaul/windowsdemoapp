@@ -2,4 +2,4 @@
 - hosts: rhntest
   tasks:
     - name: test rhn
-      command: whoami
+      command: "yum repolist | grep 'repolist: 0'| wc -l | awk '{print $1}'"
