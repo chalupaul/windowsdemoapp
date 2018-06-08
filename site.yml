@@ -2,22 +2,15 @@
 - hosts: lbExt
   vars:
     backend_group: frontend
-  tasks:
-    - name: Install haproxy
-      package:
-        name: haproxy
-        state: present
-    - name: haproxy config
-      template:
-        src: content/lb/haproxy.cfg.j2
-        dest: /etc/haproxy/haproxy.cfg
-      register: haproxy_config
-    - name: restart haproxy
-      service:
-        name: haproxy
-        enabled: true
-        state: restarted
-      when: haproxy_config.changed
+  roles:
+    - role: haproxy
+    - role: rhnregister
+- hosts: lbInt
+  vars:
+    backend_group: app
+  roles:
+    - role: haproxy
+    - role: rhnregister
 - hosts: app
   vars:
     join_domain: true
@@ -112,6 +105,9 @@
         password: "{{ dbpassword }}"
         host: '%'
         priv: "{{ dbname }}.*:ALL"
+  roles:
+    - role: rhnregister
+    - role: mysql
   tasks:
     - name: Copy database base sql file
       copy:
@@ -143,9 +139,6 @@
       command: service iptables save
       args:
         warn: false
-  roles:
-    - role: mysql
-
 - hosts: frontend
   vars:
     php_enable_php_fpm: false
@@ -183,6 +176,10 @@
               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
               include fastcgi_params;
           }
+  roles:
+    - role: rhnregister
+    - role: nginx
+    - role: php
   tasks:
     - name: ensure app location in hostfile
       lineinfile:
@@ -221,6 +218,3 @@
       template:
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
-  roles:
-    - role: nginx
-    - role: php
