@@ -4,9 +4,6 @@
   args:
     warn: false
   register: yum_repolist
-- name: debug var
-  debug:
-    var: yum_repolist
 - name: write script template
   template: 
     src: templates/rhnregister.sh.j2
