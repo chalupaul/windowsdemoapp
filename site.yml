@@ -1,6 +1,7 @@
 ---
 - hosts: app
   vars:
+    become: false
     join_domain: true
     sysprep_host: false
     windows_domain_info:
