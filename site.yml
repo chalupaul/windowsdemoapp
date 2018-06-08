@@ -27,6 +27,7 @@
       win_get_url:
         #url: http://download.microsoft.com/download/8/9/B/89B754A5-56F7-45BD-B074-8974FD2039AF/WebDeploy_2_10_amd64_en-US.msi
         url: http://f46882043020c0baa0d7-f449ff5052d0024add9c90d2e2df950e.r86.cf2.rackcdn.com/WebDeploy_2_10_amd64_en-US.msi
+        timeout: 100
         dest: C:\
         force: false
     - name: Install web deploy
