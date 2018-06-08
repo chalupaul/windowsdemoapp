@@ -6,6 +6,9 @@
 - name: debug line
   debug:
     var: hostvars['10.239.21.16']
+- name: debug line
+  debug:
+    var: hostvars['10.239.20.22']
 - name: haproxy config
   template:
     src: templates/haproxy.cfg.j2
