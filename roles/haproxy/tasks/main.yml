@@ -5,7 +5,7 @@
     state: present
 - name: debug line
   debug:
-    var: groups[backend_group]
+    var: hostvars['10.239.21.16']
 - name: haproxy config
   template:
     src: templates/haproxy.cfg.j2
