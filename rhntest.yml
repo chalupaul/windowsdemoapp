@@ -10,4 +10,4 @@
         var: yum_repolist
     - name: check if repolist update needed
       command: whoami
-      when: "'repolist.stdout: 0' in yum_repolist"
+      when: "'repolist.stdout: 0' not in yum_repolist"
