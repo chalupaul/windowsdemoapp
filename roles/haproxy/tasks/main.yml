@@ -4,8 +4,8 @@
     name: haproxy
     state: present
 - name: debug line
-    debug:
-      var: groups[backend_group]
+  debug:
+    var: groups[backend_group]
 - name: haproxy config
   template:
     src: templates/haproxy.cfg.j2
