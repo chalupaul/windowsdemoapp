@@ -1,7 +1,7 @@
 ---
 - name: dump vars
   debug:
-    var: "hostvars[{{ groups[backend_group] }}]"
+    var: hostvars[10.239.20.22]
 - name: Install haproxy
   package:
     name: haproxy
