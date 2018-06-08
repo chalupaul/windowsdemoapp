@@ -3,4 +3,8 @@
   become: true
   tasks:
     - name: test rhn
-      command: "yum repolist | grep 'repolist: 0'| wc -l | awk '{print $1}'"
+      command: yum repolist
+      register: yum_repolist
+    - name: check if repolist update needed
+      command: whoami
+      when: yum_repolist | search("repolist: 0")
