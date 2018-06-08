@@ -1,4 +1,7 @@
 ---
+- name: dump vars
+  debug:
+    var: groups[backend_group]
 - name: Install haproxy
   package:
     name: haproxy

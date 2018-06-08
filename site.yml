@@ -2,10 +2,6 @@
 - hosts: lbExt
   vars:
     backend_group: web
-  tasks:
-    - name: dump vars
-      debug:
-        var: groups[backend_group]
   roles:
     - role: rhnregister
     - role: haproxy
