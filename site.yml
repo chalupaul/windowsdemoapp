@@ -116,18 +116,23 @@
         state: import
         target: /tmp/windowsdemo.sql
       when: db_table.stat.exists == false
-#    - name: Ensure Port 3306 open
-#      iptables:
-#        chain: IN_public_allow
-#        destination_port: 3306
-#        protocol: tcp
-#        match: tcp
-#        ctstate: NEW
-#        jump: ACCEPT
-#    - name: Save iptables rules
-#      command: service iptables save
-#      args:
-#        warn: false
+    - name: Check if iptables is running
+      command: service iptables status
+      register: iptables_status
+    - name: Ensure Port 3306 open
+      iptables:
+        chain: IN_public_allow
+        destination_port: 3306
+        protocol: tcp
+        match: tcp
+        ctstate: NEW
+        jump: ACCEPT
+      when: iptables_status.rc == 0
+    - name: Save iptables rules
+      command: service iptables save
+      args:
+        warn: false
+      when: iptables_status.rc == 0
 - hosts: web
   vars:
     php_enable_php_fpm: false
@@ -175,18 +180,23 @@
         path: /etc/hosts
         regexp: "app.{{ app_domain }}"
         line: "{{ app_vip }} app.{{ app_domain }}"
-#    - name: Ensure Port 80 open
-#      iptables:
-#        chain: IN_public_allow
-#        destination_port: 80
-#        protocol: tcp
-#        match: tcp
-#        ctstate: NEW
-#        jump: ACCEPT
-#    - name: Save iptables rules
-#      command: service iptables save
-#      args:
-#        warn: false
+    - name: Check if iptables is running
+      command: service iptables status
+      register: iptables_status
+    - name: Ensure Port 80 open
+      iptables:
+        chain: IN_public_allow
+        destination_port: 80
+        protocol: tcp
+        match: tcp
+        ctstate: NEW
+        jump: ACCEPT
+      when: iptables_status.rc == 0
+    - name: Save iptables rules
+      command: service iptables save
+      args:
+        warn: false
+      when: iptables_status.rc == 0
     - name: Ensure php-fpm service running
       service:
         name: php-fpm
