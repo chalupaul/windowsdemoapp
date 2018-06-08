@@ -197,7 +197,7 @@
       when: iptables_status.rc == 0
     - name: Ensure php-fpm service running
       service:
-        name: php-fpm
+        name: php54-php-fpm
         state: started
     - name: Ensure nginx service running
       service:
