@@ -122,6 +122,7 @@
         warn: false
       ignore_errors: yes
       register: iptables_status
+      failed_when: true == false
     - name: Ensure Port 3306 open
       iptables:
         chain: IN_public_allow
@@ -179,6 +180,7 @@
         warn: false
       ignore_errors: yes
       register: iptables_status
+      failed_when: true == false
     - name: Ensure Port 80 open
       iptables:
         chain: IN_public_allow
