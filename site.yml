@@ -1,16 +1,4 @@
 ---
-- hosts: lbExt
-  vars:
-    backend_group: web
-  roles:
-    - role: rhnregister
-    - role: haproxy
-- hosts: lbInt
-  vars:
-    backend_group: app
-  roles:
-    - role: rhnregister
-    - role: haproxy
 - hosts: app
   vars:
     join_domain: true
@@ -218,3 +206,15 @@
       template:
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
+- hosts: lbExt
+  vars:
+    backend_group: web
+  roles:
+    - role: rhnregister
+    - role: haproxy
+- hosts: lbInt
+  vars:
+    backend_group: app
+  roles:
+    - role: rhnregister
+    - role: haproxy
