@@ -95,8 +95,7 @@ backend app
     {% for server in groups[backend_group] %}
         {% set v4ip='' %}
         {% if 'ansible_ip_addresses' in hostvars[server] %}
-            {{ hostvars[server]['ansible_ip_addresses'][0] }}
-            {% set vip=hostvars[server]['ansible_facts']['ip_addresses'][0] %}
+            {% set v4ip=hostvars[server]['ansible_ip_addresses'][0] %}
         {% else %}
             {% set v4ip = hostvars[server]['ansible_default_ipv4']['address'] %} 
         {% endif %}
