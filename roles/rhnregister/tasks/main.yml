@@ -1,0 +1,13 @@
+---
+- name: test rhn
+  command: yum repolist
+  register: yum_repolist
+- name: debug var
+  debug:
+    var: yum_repolist
+- name: check if repolist update needed
+  template: 
+    src: templates/rhnregister.sh.j2
+    dest: /root/.rhnregister.sh
+    mode: 0750
+  when: "'repolist.stdout: 0' not in yum_repolist"

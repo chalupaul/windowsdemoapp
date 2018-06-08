@@ -1,13 +1,5 @@
 ---
 - hosts: rhntest
   become: true
-  tasks:
-    - name: test rhn
-      command: yum repolist
-      register: yum_repolist
-    - name: debug var
-      debug:
-        var: yum_repolist
-    - name: check if repolist update needed
-      command: whoami
-      when: "'repolist.stdout: 0' not in yum_repolist"
+  roles:
+    - role: rhnregister
