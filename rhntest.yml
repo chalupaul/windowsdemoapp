@@ -7,4 +7,4 @@
       register: yum_repolist
     - name: check if repolist update needed
       command: whoami
-      when: yum_repolist|search("repolist")
+      when: "'repolist: 0' in yum_repolist"
