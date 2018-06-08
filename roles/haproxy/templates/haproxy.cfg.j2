@@ -93,10 +93,15 @@ backend app
     mode http
     balance roundrobin
     {% for server in groups[backend_group] %}
-        {% set regex = '\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b' %}
-        {% set ips = ([] + hostvars[server]['ansible_ip_addresses']) | map('regex_search', regex) %}
-        {% set win_ip = ips[0] %}
-        {% set lin_ip = hostvars[server]['ansible_default_ipv4']['address'] %}
-        {% set ip = [lin_ip, win_ip] %}
-        server {{ ip }} {{ ip }}:80 cookie {{ ip }} check
+        {% set v4ip='' %}
+        {% if 'ansible_ip_addresses' in hostvars[server] %}
+            {% for ip in hostvars[server]['ansible_ip_addresses'] %}
+                {% if '::' not in ip %}
+                    {% v4ip=ip %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% v4ip = hostvars[server]['ansible_default_ipv4']['address'] %} 
+        {% endif %}
+        server {{ v4ip }} {{ v4ip }}:80 cookie {{ v4ip }} check
     {% endfor %}
