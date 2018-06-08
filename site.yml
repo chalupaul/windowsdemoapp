@@ -23,11 +23,11 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: add db vip host entry
+    - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
         regexp: "db.{{ app_domain }}"
-        line: "{{ db_vip }} db.{{ app_domain }}"
+        line: "{{ db_ip }} db.{{ app_domain }}"
     - name: install IIS
       win_feature:
         name: Web-Server
