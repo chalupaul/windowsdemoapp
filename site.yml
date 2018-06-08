@@ -118,6 +118,8 @@
       when: db_table.stat.exists == false
     - name: Check if iptables is running
       command: service iptables status
+      args:
+        warn: false
       ignore_errors: yes
       register: iptables_status
     - name: Ensure Port 3306 open
@@ -183,6 +185,8 @@
         line: "{{ app_vip }} app.{{ app_domain }}"
     - name: Check if iptables is running
       command: service iptables status
+      args:
+        warn: false
       ignore_errors: yes
       register: iptables_status
     - name: Ensure Port 80 open
