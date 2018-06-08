@@ -3,14 +3,14 @@
   vars:
     backend_group: web
   roles:
-    - role: haproxy
     - role: rhnregister
+    - role: haproxy
 - hosts: lbInt
   vars:
     backend_group: app
   roles:
-    - role: haproxy
     - role: rhnregister
+    - role: haproxy
 - hosts: app
   vars:
     join_domain: true
