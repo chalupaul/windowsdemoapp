@@ -1,14 +1,12 @@
 ---
 - hosts: lbExt
   vars:
-    become: true
     backend_group: web
   roles:
     - role: rhnregister
     - role: haproxy
 - hosts: lbInt
   vars:
-    become: true
     backend_group: app
   roles:
     - role: rhnregister
@@ -98,7 +96,6 @@
         chdir: C:\middleware
 - hosts: db
   vars:
-    become: true
     mysql_enabled_on_startup: true
     overwrite_global_mycnf: true
     mysql_databases:
@@ -144,7 +141,6 @@
         warn: false
 - hosts: web
   vars:
-    become: true
     php_enable_php_fpm: false
     php_webserver_daemon: "nginx"
     php_fpm_listen: "127.0.0.1:9000"
