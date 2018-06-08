@@ -1,5 +1,6 @@
 ---
 - hosts: rhntest
+  become: true
   tasks:
     - name: test rhn
       command: "yum repolist | grep 'repolist: 0'| wc -l | awk '{print $1}'"
