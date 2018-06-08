@@ -39,10 +39,6 @@ php_opcache_revalidate_freq: "2"
 php_opcache_max_file_size: "0"
 php_opcache_blacklist_filename: ""
 
-# APCu settings.
-php_enable_apc: true
-php_apc_shm_size: "96M"
-php_apc_enable_cli: "0"
 
 # If this is set to false, none of the following options will have any effect.
 # Any and all changes to /etc/php.ini will be your responsibility.

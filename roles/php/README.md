@@ -144,7 +144,6 @@ The platform-specific APC configuration filename. Generally the default should w
 
 If you use APC, you will need to make sure APC is installed (it is installed by default, but if you customize the `php_packages` list, you need to include APC in the list):
 
-  - *On RHEL/CentOS systems*: Make sure `php-pecl-apcu` is in the list of `php_packages`.
   - *On Debian/Ubuntu systems*: Make sure `php-apcu` is in the list of `php_packages`.
 
 ### Installing from Source

@@ -11,7 +11,6 @@ __php_packages:
   - php-opcache
   - php-pdo
   - php-pear
-  - php-pecl-apcu
   - php-xml
   - php-xmlrpc
 __php_webserver_daemon: "httpd"
@@ -22,7 +21,6 @@ __php_conf_paths:
 __php_extension_conf_paths:
   - /etc/php.d
 
-__php_apc_conf_filename: 50-apc.ini
 __php_opcache_conf_filename: 10-opcache.ini
 __php_fpm_daemon: php-fpm
 __php_fpm_conf_path: "/etc/fpm"

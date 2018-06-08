@@ -28,11 +28,6 @@
     php_extension_conf_paths: "{{ __php_extension_conf_paths }}"
   when: php_extension_conf_paths is not defined
 
-- name: Define php_apc_conf_filename.
-  set_fact:
-    php_apc_conf_filename: "{{ __php_apc_conf_filename }}"
-  when: php_apc_conf_filename is not defined
-
 - name: Define php_opcache_conf_filename (Ubuntu 16.04).
   set_fact:
     php_opcache_conf_filename: "10-opcache.ini"
@@ -61,6 +56,5 @@
 
 # Configure PHP.
 - include_tasks: configure.yml
-- include_tasks: configure-apcu.yml
 - include_tasks: configure-opcache.yml
 - include_tasks: configure-fpm.yml
