@@ -6,9 +6,16 @@
 - name: debug var
   debug:
     var: yum_repolist
-- name: check if repolist update needed
+- name: write script template
   template: 
     src: templates/rhnregister.sh.j2
     dest: /root/.rhnregister.sh
     mode: 0750
   when: "'repolist.stdout: 0' not in yum_repolist"
+- name: execute rhn registration
+  command: /bin/bbash /root/.rhnregister.sh
+  when: "'repolist.stdout: 0' not in yum_repolist"
+- name: delete registration script
+  file: 
+    path: /root/.rhnregister.sh
+    state: absent
