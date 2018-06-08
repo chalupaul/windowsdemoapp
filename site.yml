@@ -145,18 +145,8 @@
     php_fpm_pm_start_servers: 5
     php_fpm_pm_min_spare_servers: 5
     php_fpm_pm_max_spare_servers: 5
-    php_opcache_conf_filename: "opcache.ini"
-    php_opcache_zend_extension: "/usr/lib64/php/modules/opcache.so"
-    php_opcache_enable: "1"
+    php_opcache_enable: "0"
     php_opcache_enable_cli: "0"
-    php_opcache_memory_consumption: "96"
-    php_opcache_interned_strings_buffer: "16"
-    php_opcache_max_accelerated_files: "4096"
-    php_opcache_max_wasted_percentage: "5"
-    php_opcache_validate_timestamps: "1"
-    php_opcache_revalidate_path: "0"
-    php_opcache_revalidate_freq: "2"
-    php_opcache_max_file_size: "0"
     nginx_vhosts:
       - listen: "80"
         server_name: "www.{{ app_domain }}"

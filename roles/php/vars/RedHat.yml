@@ -3,12 +3,11 @@ __php_packages:
   - php
   - php-cli
   - php-common
-  - php-fpm
+  - php54-php-fpm
   - php-gd
-  - php-imap
   - php-ldap
-  - php-mbstring
-  - php-opcache
+  - php54-php-mbstring
+  - php54-php-pecl-zendopcache
   - php-pdo
   - php-pear
   - php-xml
