@@ -93,6 +93,7 @@ backend app
     mode http
     balance roundrobin
     {% for server in groups[backend_group] %}
+    {{ server }}
         {% set ip = hostvars[server]['ansible_eth0']['ipv4']['address'] %}
         server {{ ip }} {{ ip }}:80 cookie {{ ip }} check
     {% endfor %}
