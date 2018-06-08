@@ -93,6 +93,7 @@ backend app
     mode http
     balance roundrobin
     {% for server in groups[backend_group] %}
+        {% set v4ip='' %}
         {% if 'ansible_ip_addresses' in hostvars[server] %}
             {% for ip in hostvars[server]['ansible_ip_addresses'] %}
                 {% if '::' not in ip %}
