@@ -96,7 +96,7 @@ backend app
         {% set regex = '\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b' %}
         {% set ips = ([] + hostvars[server]['ansible_ip_addresses']) | map('regex_search', regex) %}
         {% set win_ip = ips[0] %}
-        {% set lin_ip = hostvars[server]['ansible_default_ipv4']['address']
+        {% set lin_ip = hostvars[server]['ansible_default_ipv4']['address'] %}
         {% set ip = [lin_ip, win_ip] %}
         server {{ ip }} {{ ip }}:80 cookie {{ ip }} check
     {% endfor %}
