@@ -1,7 +1,7 @@
 ---
 - name: test rhn
   command: yum repolist
-    warn: false
+  warn: false
   register: yum_repolist
 - name: debug var
   debug:
