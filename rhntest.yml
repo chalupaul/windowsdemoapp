@@ -5,6 +5,9 @@
     - name: test rhn
       command: yum repolist
       register: yum_repolist
+    - name: debug var
+      debug:
+        var: yum_repolist
     - name: check if repolist update needed
       command: whoami
       when: "'repolist: 0' in yum_repolist"
