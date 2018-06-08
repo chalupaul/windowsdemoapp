@@ -1,7 +1,8 @@
 ---
 - name: test rhn
   command: yum repolist
-  warn: false
+  args:
+    warn: false
   register: yum_repolist
 - name: debug var
   debug:
@@ -11,10 +12,10 @@
     src: templates/rhnregister.sh.j2
     dest: /root/.rhnregister.sh
     mode: 0750
-  when: "'repolist.stdout: 0' not in yum_repolist"
+  when: "'repolist: 0' not in yum_repolist.stdout"
 - name: execute rhn registration
   command: /bin/bbash /root/.rhnregister.sh
-  when: "'repolist.stdout: 0' not in yum_repolist"
+  when: "'repolist: 0' not in yum_repolist.stdout"
 - name: delete registration script
   file: 
     path: /root/.rhnregister.sh
