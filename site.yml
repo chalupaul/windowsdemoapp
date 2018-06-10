@@ -1,10 +1,14 @@
 ---
-- hosts: "{{ service_name }}"
+- hosts: service_name+'--web':service_name+'--db':service_name+'--lb'
+  tasks:
+    - name: Setup 
+      setup:
+- hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
   tasks:
-  - name: Setup
-    setup:
+    - name: Setup
+      setup:
 - hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
