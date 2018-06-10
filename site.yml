@@ -9,17 +9,15 @@
       dns_domain_name: "{{ windomianname }}"
       domain_admin_user: "{{ windomainadminuser }}"
       domain_admin_password: "{{ windomainadminpass }}"
+    db_ip4v: hostvars[groups[service_name + '--db'][0]]['ansible_ssh_host']
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: debug db_ipv4
-      debug:
-        var: hostvars[groups[service_name + '--db'][0]]['ansible_ssh_host']
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
         regexp: "db.{{ app_domain }}"
-        line: "{{ app_vip }} db.{{ app_domain }}"
+        line: "{{ db_ipv4 }} db.{{ app_domain }}"
     - name: install IIS
       win_feature:
         name: Web-Server
