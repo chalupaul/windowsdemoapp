@@ -223,7 +223,7 @@
         dest: "/var/www/{{ app_domain }}/_config.php"
     - name: debug value
       debug:
-        var: hostvars[inventory_hostname]
+        var: "groups['{{ service_name }}--db']"
     - name: debug value groups
       debug:
         var: groups
