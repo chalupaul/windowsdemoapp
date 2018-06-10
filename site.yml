@@ -2,7 +2,7 @@
 - hosts: "{{ service_name }}--db:{{ service_name }}--lb:{{ service_name }}--web"
 - hosts: "{{ service_name }}--app"
   vars:
-    db_ipv4: hostvars[groups[service_name + '--db'][0]].ansible_default_ipv4.address
+    db_ipv4: "{{hostvars[groups[service_name + '--db'][0]].ansible_default_ipv4.address}}"
     ansible_become: false
     join_domain: true
     sysprep_host: false
