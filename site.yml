@@ -223,7 +223,7 @@
         dest: "/var/www/{{ app_domain }}/_config.php"
     - name: debug value
       debug:
-        var: play_hosts
+        var: hostvars[inventory_hostname]
 - hosts: "{{ service_name }}--lb"
   vars:
     backend_group: "{{ service_name }}--web"
