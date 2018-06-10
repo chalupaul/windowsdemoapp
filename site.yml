@@ -5,7 +5,6 @@
     ansible_become: false
     join_domain: true
     sysprep_host: false
-    db_ipv4: hostvars[groups[service_name + '--db'][0]].ansible_default_ipv4.address
     windows_domain_info:
       dns_server: "{{ windnsaddr }}"
       dns_domain_name: "{{ windomianname }}"
@@ -16,12 +15,12 @@
   tasks:
     - name: debug variables
       debug:
-        var: db_ipv4
+        var: hostvars[groups[service_name + '--db'][0]].ansible_default_ipv4.address
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
         regexp: "db.{{ app_domain }}"
-        line: "{{ db_ipv4 }} db.{{ app_domain }}"
+        line: "{{ app_domain }} db.{{ app_domain }}"
     - name: install IIS
       win_feature:
         name: Web-Server
