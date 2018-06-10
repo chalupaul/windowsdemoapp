@@ -106,7 +106,7 @@
   tasks:
     - name: print out vars
       debug:
-        var: hostvars[inventory_hostname]['default_ipv4']['address']
+        var: hostvars[inventory_hostname]['ansible_facts']['default_ipv4']['address']
     - name: Copy database base sql file
       copy:
         src: content/database/windowsdemo.sql
