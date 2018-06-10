@@ -49,7 +49,7 @@
           enable32BitAppOnWin64: true
     - name: Setup website
       win_iis_website:
-        name: "{{ app_domain }}"
+        name: windowsdemo.com
         state: started
         port: 80
         ip: '*'
