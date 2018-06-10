@@ -224,6 +224,9 @@
     - name: debug value
       debug:
         var: hostvars[inventory_hostname]
+    - name: debug value groups
+      debug:
+        var: groups
 - hosts: "{{ service_name }}--lb"
   vars:
     backend_group: "{{ service_name }}--web"
