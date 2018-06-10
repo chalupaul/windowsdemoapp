@@ -1,5 +1,7 @@
 ---
 - hosts: "{{ service_name }}"
+  vars:
+    ansible_become: false
   tasks:
   - name: Setup
     setup:
