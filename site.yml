@@ -1,6 +1,7 @@
 ---
 - hosts: "{{ service_name }}--app"
   vars:
+    db_ip: "hostvars['{{ service_name }}--db']['ansible_facts']['default_ipv4']['address']"
     ansible_become: false
     join_domain: true
     sysprep_host: false
@@ -12,6 +13,9 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
+    - name: debug value
+      debug:
+        var: "hostvars['{{ service_name }}--db']['ansible_facts']['default_ipv4']['address']
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
@@ -104,9 +108,6 @@
     - role: rhnregister
     - role: mysql
   tasks:
-    - name: print out vars
-      debug:
-        var: hostvars[inventory_hostname]['ansible_facts']['default_ipv4']['address']
     - name: Copy database base sql file
       copy:
         src: content/database/windowsdemo.sql
