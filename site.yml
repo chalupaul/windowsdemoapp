@@ -12,9 +12,12 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
+    - name: register db_group
+      set_fact:
+        db_group: "{{ service_name }}--db"
     - name: register db_host
       set_fact:
-        db_host: "groups['{{ service_name }}--db'][0]"
+        db_host: "groups[{{db_group}}]"
     - name: debug db_host
       debug:
         var: db_host
