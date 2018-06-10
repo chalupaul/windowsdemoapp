@@ -218,7 +218,7 @@
         dest: "/var/www/{{ app_domain }}/_config.php"
 - hosts: testfullstack--lbExt
   vars:
-    backend_group: web
+    backend_group: testfullstack--web
   roles:
     - role: rhnregister
     - role: haproxy
