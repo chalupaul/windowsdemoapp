@@ -1,7 +1,5 @@
 ---
 - hosts: "{{ service_name }}--db:{{ service_name }}--lb:{{ service_name }}--web"
-  tasks:
-    setup:
 - hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
