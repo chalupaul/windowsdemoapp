@@ -1,5 +1,5 @@
 ---
-- hosts: service_name + '--web:' + service_name + '--db:' + service_name + '--lb'
+- hosts: "{{ service_name }}--db:{{ service_name }}--lb:{{ service_name }}--web"
   tasks:
     - name: Setup Linux
       setup:
