@@ -216,7 +216,7 @@
       template:
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
-- hosts: testfullstack--lbExt
+- hosts: testfullstack--lbext
   vars:
     backend_group: testfullstack--web
   roles:
