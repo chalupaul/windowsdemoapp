@@ -5,7 +5,7 @@
     ansible_become: false
     join_domain: true
     sysprep_host: false
-    db_ipv4: hostvars[groups[service_name + '--db'][0]]['default_ipv4']['address']
+    db_ipv4: hostvars[groups[service_name + '--db'][0]].ansible_default_ipv4.address
     windows_domain_info:
       dns_server: "{{ windnsaddr }}"
       dns_domain_name: "{{ windomianname }}"
