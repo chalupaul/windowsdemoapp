@@ -210,7 +210,7 @@
         state: directory
     - name: Copy front end code
       copy:
-        src: content/frontend/web
+        src: content/frontend/web/
         dest: "/var/www/{{ app_domain }}"
     - name: Write config template
       template:
