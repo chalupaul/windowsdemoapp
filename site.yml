@@ -6,12 +6,6 @@
 - hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
-  tasks:
-    - name: Setup Windows
-      setup:
-- hosts: "{{ service_name }}--app"
-  vars:
-    ansible_become: false
     join_domain: true
     sysprep_host: false
     windows_domain_info:
