@@ -14,7 +14,7 @@
   tasks:
     - name: debug db_ipv4
       debug:
-        var: hostvars[groups[service_name + '--db'][0]]
+        var: hostvars[groups[service_name + '--db'][0]]['ansible_ssh_host']
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
