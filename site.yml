@@ -1,7 +1,7 @@
 ---
 - hosts: service_name + '--web:' + service_name + '--db:' + service_name + '--lb'
   tasks:
-    - name: Setup 
+    - name: Setup Linux
       setup:
 - hosts: "{{ service_name }}--app"
   vars:
