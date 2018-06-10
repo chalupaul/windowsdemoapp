@@ -1,4 +1,8 @@
 ---
+- hosts: "{{ service_name }}"
+  tasks:
+  - name: Setup
+    setup:
 - hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
