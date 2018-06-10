@@ -12,9 +12,6 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: debug value
-      debug:
-        var: "hostvars['{{ service_name }}--db']"
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
@@ -224,6 +221,9 @@
       template:
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
+    - name: debug value
+      debug:
+        var: "hostvars['{{ service_name }}--db']"
 - hosts: "{{ service_name }}--lb"
   vars:
     backend_group: "{{ service_name }}--web"
