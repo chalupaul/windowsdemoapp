@@ -34,7 +34,7 @@
         timeout: 100
         dest: C:\
         force: false
-      when: webdeploy_stat.stat.exists
+      when: webdeploy_stat.stat.exists is false
     - name: Install web deploy
       win_command: msiexec /I C:\WebDeploy_2_10_amd64_en-US.msi /quiet ADDLOCAL=ALL
     - name: push webapp code
