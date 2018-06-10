@@ -148,8 +148,8 @@
 - hosts: "{{ service_name }}--web"
   vars:
      app_ips: 127.0.0.1, 127.0.0.1
-    #app_ips: "{{hostvars[groups[service_name + '--app'][0]].ansible_default_ipv4.address}}
-    #app_ips: "{{ groups[service_name + '--app'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
+#    #app_ips: "{{hostvars[groups[service_name + '--app'][0]].ansible_default_ipv4.address}}
+#    #app_ips: "{{ groups[service_name + '--app'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) | join(',') }}"
     php_enable_php_fpm: false
     php_webserver_daemon: "nginx"
     php_fpm_listen: "127.0.0.1:9000"
