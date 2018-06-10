@@ -104,6 +104,9 @@
     - role: rhnregister
     - role: mysql
   tasks:
+    - name: print out vars
+      debug:
+        var: hostvars[inventory_hostname]
     - name: Copy database base sql file
       copy:
         src: content/database/windowsdemo.sql
