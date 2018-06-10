@@ -4,12 +4,12 @@
     ansible_become: false
     join_domain: true
     sysprep_host: false
+    db_ipv4: hostvars[groups[service_name + '--db'][0]]['ansible_ssh_host']
     windows_domain_info:
       dns_server: "{{ windnsaddr }}"
       dns_domain_name: "{{ windomianname }}"
       domain_admin_user: "{{ windomainadminuser }}"
       domain_admin_password: "{{ windomainadminpass }}"
-    db_ip4v: hostvars[groups[service_name + '--db'][0]]['ansible_ssh_host']
   roles:
     - role: ansible-windows-domain-member
   tasks:
