@@ -1,5 +1,5 @@
 ---
-- hosts: testfullstack--app
+- hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
     join_domain: true
@@ -84,7 +84,7 @@
       win_command: winapp1.deploy.cmd /Y
       args:
         chdir: C:\middleware
-- hosts: testfullstack--db
+- hosts: "{{ service_name }}--db"
   vars:
     mysql_enabled_on_startup: true
     overwrite_global_mycnf: true
@@ -138,7 +138,7 @@
       args:
         warn: false
       when: iptables_status.rc == 0
-- hosts: testfullstack--web
+- hosts: "{{ service_name }}--web"
   vars:
     php_enable_php_fpm: false
     php_webserver_daemon: "nginx"
@@ -216,9 +216,9 @@
       template:
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
-- hosts: testfullstack--lb
+- hosts: "{{ service_name }}--lb"
   vars:
-    backend_group: testfullstack--web
+    backend_group: "{{ service_name }}--web"
   roles:
     - role: rhnregister
     - role: haproxy
