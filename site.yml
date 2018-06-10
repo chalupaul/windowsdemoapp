@@ -14,10 +14,16 @@
   tasks:
     - name: register db_host
       set_fact:
-        db_host: "groups['{{ service_name }}--db'][0]"
+        db_host: "hostvars[groups['{{ service_name }}--db'][0]]"
     - name: register db_ipv4
       set_fact:
-        db_ipv4: "hostvars[{{ db_host}}]['ansible_default_ipv4']['address']"
+        db_ipv4: "{{ db_host}}['ansible_default_ipv4']['address']"
+    - name: debug db_host
+      debug:
+        var: db_host
+    - name: debug db_ipv4
+      debug:
+        var: db_ipv4
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
