@@ -7,7 +7,7 @@
   vars:
     ansible_become: false
   tasks:
-    - name: Setup
+    - name: Setup Windows
       setup:
 - hosts: "{{ service_name }}--app"
   vars:
