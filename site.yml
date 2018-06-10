@@ -1,4 +1,7 @@
 ---
+- hosts: "{{ service_name}}--db:{{ service_name }}--lb:{{ service_name }}--web"
+  tasks:
+    setup:
 - hosts: "{{ service_name }}--app"
   vars:
     ansible_become: false
@@ -13,6 +16,9 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
+    - name: debug variables
+      debug:
+        var: hostvars[groups[service_name + '--db'][0]]
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
