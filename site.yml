@@ -227,7 +227,7 @@
 #        db_ipv4: "hostvars[{{ db_host }}]['ansible_default_ipv4']['address']"
     - name: debug host value
       debug:
-        var: db_host
+        var: "hostvars[{{ db_host}}]['ansible_default_ipv4']"
 - hosts: "{{ service_name }}--lb"
   vars:
     backend_group: "{{ service_name }}--web"
