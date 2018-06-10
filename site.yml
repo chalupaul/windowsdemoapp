@@ -222,9 +222,9 @@
         src: content/frontend/_config.php.j2
         dest: "/var/www/{{ app_domain }}/_config.php"
     - name: register db_ip
-        set_fact:
-          db_host: "groups['{{ service_name }}--db'][0]"
-          db_ipv4: "hostvars[{{ db_host }}]['ansible_default_ipv4']['address']"
+      set_fact:
+        db_host: "groups['{{ service_name }}--db'][0]"
+        db_ipv4: "hostvars[{{ db_host }}]['ansible_default_ipv4']['address']"
     - name: debug host value
       debug:
         var: db_host
