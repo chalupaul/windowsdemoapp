@@ -178,6 +178,9 @@
     - role: nginx
     - role: php
   tasks:
+    - name: debug vars
+      debug:
+        var: hostvars[groups[service_name + '--app'][0]]
     - name: Debug ips
       debug:
         var: app_ips
