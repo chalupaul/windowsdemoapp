@@ -19,7 +19,7 @@
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
         regexp: "db.{{ app_domain }}"
-        line: "{{ db_ipv4 }} db.{{ app_domain }}"
+        line: "{{ app_vip }} db.{{ app_domain }}"
     - name: install IIS
       win_feature:
         name: Web-Server
