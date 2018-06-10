@@ -14,14 +14,11 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: debug variables
-      debug:
-        var: db_ipv4
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
         regexp: "db.{{ app_domain }}"
-        line: "{{ app_domain }} db.{{ app_domain }}"
+        line: "{{ db_ipv4 }} db.{{ app_domain }}"
     - name: install IIS
       win_feature:
         name: Web-Server
