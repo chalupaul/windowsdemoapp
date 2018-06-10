@@ -23,6 +23,10 @@
         state: present
         include_sub_features: true
         include_management_tools: true
+    - name: check for downloaded deployer
+      win_stat:
+        path: C:\WebDeploy_2_10_amd64_en-US.msi
+      register: webdeploy_stat
     - name: download web deploy installer
       win_get_url:
         #url: http://download.microsoft.com/download/8/9/B/89B754A5-56F7-45BD-B074-8974FD2039AF/WebDeploy_2_10_amd64_en-US.msi
@@ -30,6 +34,7 @@
         timeout: 100
         dest: C:\
         force: false
+      when: webdeploy_stat.stat.exists
     - name: Install web deploy
       win_command: msiexec /I C:\WebDeploy_2_10_amd64_en-US.msi /quiet ADDLOCAL=ALL
     - name: push webapp code
