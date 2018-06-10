@@ -224,13 +224,10 @@
     - name: register db_ip
       set_fact:
         db_host: "groups['{{ service_name }}--db'][0]"
-        db_ipv4: "hostvars[{{ db_host }}]['ansible_default_ipv4']['address']"
+#        db_ipv4: "hostvars[{{ db_host }}]['ansible_default_ipv4']['address']"
     - name: debug host value
       debug:
         var: db_host
-    - name: debug  ip value
-      debug:
-        var: db_ipv4
 - hosts: "{{ service_name }}--lb"
   vars:
     backend_group: "{{ service_name }}--web"
