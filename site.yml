@@ -1,7 +1,6 @@
 ---
 - hosts: "{{ service_name }}--app"
   vars:
-    db_ip: "hostvars['{{ service_name }}--db']"
     ansible_become: false
     join_domain: true
     sysprep_host: false
@@ -15,7 +14,7 @@
   tasks:
     - name: debug value
       debug:
-        var: "hostvars['{{ service_name }}--db']['default_ipv4']['address']"
+        var: "hostvars['{{ service_name }}--db']"
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
