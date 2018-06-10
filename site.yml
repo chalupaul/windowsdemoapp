@@ -16,7 +16,7 @@
   tasks:
     - name: debug variables
       debug:
-        var: hostvars[groups[service_name + '--db'][0]]
+        var: db_ipv4
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
