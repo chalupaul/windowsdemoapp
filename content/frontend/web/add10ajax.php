@@ -1,14 +1,16 @@
 <?php
 require "./_config.php";
 require "./_list.php";
+require "./_curl.php";
 
 $resp = array("newNames" => array());
 
 # list all names
 
-$names_url = "http://" . $app_hostname . "/api/names";
+$names_url = "http://" . get_ip() . "/api/names";
 $ch = curl_init($names_url);
 curl_setopt( $ch, CURLOPT_POST, 1);
+curl_setopt( $ch, CURLOPT_HTTPHEADER, array("Host: " . $app_hostname));
 curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
 curl_setopt( $ch, CURLOPT_HEADER, 0);
 curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
