@@ -3,7 +3,8 @@ require "./_config.php";
 require "./_header.php";
 require "./_list.php";
 
-$names = list_names($app_hostname);
+$app_url = $names_url_list[mt_rand(0, count($names_url_list) - 1)];
+$names = list_names($app_url);
 ?>
 <div class="row">
   <div class="col-md-12">
