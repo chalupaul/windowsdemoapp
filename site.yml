@@ -181,11 +181,6 @@
     - name: debug vars
       debug:
         var: app_ips
-    - name: ensure app location in hostfile
-      lineinfile:
-        path: /etc/hosts
-        regexp: "app.{{ app_domain }}"
-        line: "{{ app_vip }} app.{{ app_domain }}"
     - name: Check if iptables is running
       command: service iptables status
       args:
