@@ -1,7 +1,7 @@
 <?php
-require "./_config.php";
-require "./_list.php";
-require "./_curl.php";
+require_once("./_config.php");
+require_once("./_list.php");
+require_once("./_curl.php");
 
 $resp = array("newNames" => array());
 

@@ -1,7 +1,7 @@
 <?php
-require "./_config.php";
-require "./_header.php";
-require "./_list.php";
+require_once("./_config.php");
+require_once("./_header.php");
+require_once("./_list.php");
 
 $names = list_names();
 ?>
