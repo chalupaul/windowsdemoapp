@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-static $names = [ "{{ app_ips }}" ];
+static $names_url_list = [ "{{ app_ips }}" ];
 static $app_hostname = "app.{{ app_domain }}";
 static $db_hostname = "db.{{ app_domain }}";
 static $web_hostname = "www.{{ app_domain }}";
