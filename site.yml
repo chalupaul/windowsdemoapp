@@ -147,7 +147,7 @@
       when: iptables_status.rc == 0
 - hosts: "{{ service_name }}--web"
   vars:
-    app_ips: "{{ groups[service_name + '--app'] | map('extract', hostvars, ['ip_addresses']) }}"
+    app_ips: "{{ groups[service_name + '--app'] | map('extract', hostvars, ['ip_addresses'])|join(',') }}"
     php_enable_php_fpm: false
     php_webserver_daemon: "nginx"
     php_fpm_listen: "127.0.0.1:9000"
