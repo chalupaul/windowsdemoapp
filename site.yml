@@ -14,12 +14,6 @@
   roles:
     - role: ansible-windows-domain-member
   tasks:
-    - name: debug db ip
-      debug:
-        var: db_ipv4
-    - name: debug db block
-      debug:
-        var: "{{hostvars[groups[service_name + '--db']}}"
     - name: add db ip host entry
       win_lineinfile:
         path: C:\windows\system32\drivers\etc\hosts
