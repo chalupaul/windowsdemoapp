@@ -64,5 +64,5 @@
     <div class="container">
       <div class="paul-header">
         <h1 class="paul-title"><?php print $html_title; ?></h1>
-        <p class="lead paul-description">Simple demo of the things! All of the things!.</p>
+        <p class="lead paul-description"><?php print $app_version; ?></p>
       </div>

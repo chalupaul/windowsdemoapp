@@ -6,7 +6,7 @@ function list_names() {
     $raw_names = get_curl();
     # list all names
     if ($raw_names == '') {
-        return($list_names());
+        return(list_names());
     } else {
         $raw_names = str_replace('[', '', $raw_names);
         $raw_names = str_replace(']', '', $raw_names);
