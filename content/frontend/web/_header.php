@@ -64,5 +64,5 @@
     <div class="container">
       <div class="paul-header">
         <h1 class="paul-title"><?php print $html_title; ?></h1>
-        <p class="lead paul-description"><?php print $app_version; ?></p>
+        <p class="lead paul-description">Application Version: <?php print $app_version; ?></p>
       </div>
