@@ -1,7 +1,7 @@
 {% block server_redirect %}
 {% if item.server_name_redirect is defined %}
 server {
-    listen       {{ item.listen | default('80') }} default_server ;
+    listen       {{ item.listen | default('80') }} default_server;
     server_name  {{ item.server_name_redirect }};
     return       301 $scheme://{{ item.server_name.split(' ')[0] }}$request_uri;
 }
@@ -12,7 +12,7 @@ server {
     {% block server_begin %}{% endblock %}
 
     {% block server_basic -%}
-    listen {{ item.listen | default('80') }};
+    listen {{ item.listen | default('80') }} default_server;
 
 {% if item.server_name is defined %}
     server_name {{ item.server_name }};
