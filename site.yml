@@ -165,7 +165,6 @@
         state: "present"
         template: "{{ nginx_vhost_template }}"
         filename: "{{ app_domain }}.conf"
-        default_server: true
         extra_parameters: |
           location ~ \.php$ {
               fastcgi_split_path_info ^(.+\.php)(/.+)$;
