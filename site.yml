@@ -158,8 +158,8 @@
     php_opcache_enable: "0"
     php_opcache_enable_cli: "0"
     nginx_vhosts:
-      nginx_remove_default_vhost: true
       - listen: "80"
+        nginx_remove_default_vhost: true
         server_name: "www.{{ app_domain }}"
         root: "/var/www/{{ app_domain }}"
         index: "index.php index.html index.htm"
