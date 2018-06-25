@@ -207,6 +207,10 @@
       service:
         name: php54-php-fpm
         state: started
+    - name: Manually enable php-fpm service
+      command: systemctl enable php54-php-fpm
+      args:
+        warn: false
     - name: Remove stock nginx domain
       file:
         path: /etc/nginx/conf.d/default.conf
